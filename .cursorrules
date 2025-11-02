@@ -1,0 +1,209 @@
+# Cursor Rules para Trazzos Roadmap
+
+## Información del Proyecto
+
+Este es un proyecto Next.js 15 que presenta la hoja de ruta de implementación de Trazzos, una plataforma de IA + Blockchain para mantenimiento predictivo industrial. El proyecto está completamente en español y usa dark mode por defecto.
+
+## Stack Tecnológico
+
+- Next.js 15.5.4 (App Router)
+- React 19.1.0
+- TypeScript 5 (strict mode)
+- Tailwind CSS 4.1.9 (CSS Variables, dark mode)
+- Shadcn UI (estilo "new-york", componentes Radix UI)
+- Framer Motion 12.23.22 (animaciones)
+- Lucide React (iconos)
+- Geist Sans & Geist Mono (fuentes)
+
+## Reglas de Código
+
+### Idioma
+
+- TODOS los textos de UI deben estar en ESPAÑOL
+- Comentarios en código pueden estar en inglés
+- Variables, funciones y nombres de archivos en inglés (convención estándar)
+
+### Estructura de Componentes
+
+```typescript
+"use client"; // Solo si necesita interactividad o animaciones
+
+import { motion } from "framer-motion";
+import { ComponentType } from "lucide-react";
+
+interface ComponentNameProps {
+  // Props tipadas
+}
+
+export function ComponentName({ prop1, prop2 }: ComponentNameProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="container mx-auto px-4"
+    >
+      {/* Contenido */}
+    </motion.div>
+  );
+}
+```
+
+### Convenciones TypeScript
+
+- Usar interfaces para props de componentes
+- Tipos estrictos siempre
+- Named exports para componentes
+- PascalCase para componentes
+- camelCase para funciones y variables
+
+### Estilos con Tailwind
+
+- Mobile-first approach (sin prefijo base, `md:` para tablet+, `lg:` para desktop+)
+- Usar CSS variables para colores: `bg-primary`, `text-foreground`, `text-muted-foreground`
+- Espaciado consistente: 4, 8, 12, 16, 20, 24, etc.
+- Container: `container mx-auto px-4`
+- Responsive: siempre probar mobile primero
+
+### Animaciones (Framer Motion)
+
+- Usar `motion.div`, `motion.section`, etc. para elementos animados
+- Patrón común: `initial={{ opacity: 0, y: 20 }}` → `animate={{ opacity: 1, y: 0 }}`
+- Para scroll: `whileInView={{ opacity: 1 }}` con `viewport={{ once: true }}`
+- Duración estándar: `duration: 0.6`
+- Evitar animaciones excesivas que afecten rendimiento
+
+### Componentes UI
+
+- Usar componentes Shadcn UI de `@/components/ui/*`
+- Iconos de `lucide-react`
+- Accesibilidad: Radix UI ya la incluye, no romperla
+- Variantes: usar `cn()` para combinar clases condicionalmente
+
+### Path Aliases
+
+- `@/components` → `./components`
+- `@/components/ui` → `./components/ui`
+- `@/lib` → `./lib`
+- `@/hooks` → `./hooks` (si existe)
+
+## Mejores Prácticas
+
+### DO ✅
+
+- Usar Server Components por defecto (mejor rendimiento)
+- Marcar con `"use client"` solo cuando sea necesario (animaciones, hooks, interactividad)
+- Usar `motion` components para animaciones suaves
+- Usar `viewport={{ once: true }}` en animaciones de scroll
+- Usar `flex-shrink-0` en iconos
+- Usar `text-balance` para mejor legibilidad
+- Tipar todas las props de componentes
+- Mantener consistencia visual con diseño existente
+- Validar responsive en mobile, tablet y desktop
+
+### DON'T ❌
+
+- NO usar inline styles (usar Tailwind)
+- NO hardcodear colores (usar CSS variables)
+- NO crear animaciones innecesarias
+- NO olvidar tipos TypeScript
+- NO poner textos de UI en inglés
+- NO romper la estructura de animaciones existentes
+- NO usar `useEffect` innecesariamente (preferir Server Components)
+- NO crear componentes sin tipos
+
+## Estructura de Archivos
+
+```
+app/
+  layout.tsx      # Layout raíz, metadata, fonts
+  page.tsx        # Página principal (roadmap)
+  globals.css     # Variables CSS y estilos globales
+
+components/
+  ui/             # Componentes Shadcn base
+  timeline-phase.tsx
+  go-no-go-checklist.tsx
+
+lib/
+  utils.ts        # Utilidades (cn, etc.)
+
+public/
+  logo-trazzos.svg
+```
+
+## Patrones de Diseño
+
+### Secciones Principales
+
+1. Hero Section: Logo, título, descripción, badges
+2. Fase 0: Sección especial con detalles completos
+3. Timeline Phases: Componente `TimelinePhase` reutilizable
+4. Go/No-Go Checklist: Componente interactivo (actualmente comentado)
+5. Footer: Información final
+
+### Paleta de Colores
+
+- Variables CSS en `app/globals.css`
+- Usar tokens semánticos: `primary`, `secondary`, `muted-foreground`, `foreground`
+- Dark mode por defecto
+- Asegurar contraste adecuado
+
+### Tipografía
+
+- Geist Sans para UI (configurado en layout)
+- Geist Mono para código/badges
+- Tamaños responsive: `text-lg md:text-xl`
+
+## Tareas Comunes
+
+### Agregar Nueva Fase
+
+1. Agregar `TimelinePhase` en `app/page.tsx`
+2. Pasar todas las props requeridas (objetivos, entregables, KPIs, etc.)
+3. Mantener estructura consistente con otras fases
+
+### Agregar Nuevo Componente
+
+1. Crear archivo en `components/`
+2. Definir interface para props
+3. Usar `motion` si necesita animaciones
+4. Exportar como named export
+5. Importar en archivo que lo use
+
+### Modificar Estilos
+
+1. Usar clases Tailwind
+2. Referenciar CSS variables si necesita colores
+3. Verificar responsive
+4. Mantener consistencia con diseño existente
+
+## Validaciones Antes de Commit
+
+- [ ] Todos los textos de UI en español
+- [ ] Componentes tipados correctamente
+- [ ] Responsive funciona en mobile, tablet, desktop
+- [ ] Animaciones suaves y no bloqueantes
+- [ ] No hay errores de TypeScript
+- [ ] No hay warnings de consola
+- [ ] Build exitoso (`npm run build`)
+
+## Notas Importantes
+
+- El proyecto usa Next.js App Router (no Pages Router)
+- React Server Components por defecto, Client Components solo cuando necesario
+- Shadcn UI está configurado con RSC habilitado
+- Analytics de Vercel incluido en layout
+- El checklist Go/No-Go está comentado en page.tsx (línea 447)
+
+## Comandos Útiles
+
+```bash
+npm run dev      # Desarrollo local
+npm run build    # Build de producción
+npm run start    # Servidor de producción
+npm run lint     # Linter
+```
+
+---
+
+Sigue estas reglas para mantener consistencia y calidad en el código.
